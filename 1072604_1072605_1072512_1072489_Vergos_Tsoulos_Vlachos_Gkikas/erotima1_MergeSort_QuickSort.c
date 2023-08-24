@@ -156,7 +156,6 @@ void mergeSort(STOCK* arr, int low, int rear)
         int mid = low + (rear - low) / 2;
         mergeSort(arr, low, mid);
         mergeSort(arr, mid + 1, rear);
-
         merge(arr, low, mid, rear);
     }
 }
@@ -165,7 +164,7 @@ algorithmos QuickSort ylopoihmenos basei diafaneivn kyriou siouta apo to eclass
 */
 void QuickSort(STOCK* array,int left,int right){
 int leftarrow,rightarrow;
-float pivot;
+float pivot;// check here for bugs - Propably not
 leftarrow=left;
 rightarrow=right;
 pivot=array[(left+right)/2].Open;
