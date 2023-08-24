@@ -308,9 +308,9 @@ struct Node* diagrafi(struct Node* add, int date)
                 temp = add; 
                 add = NULL; 
             } 
-            else // One child case 
+            else{ // One child case 
             *add = *temp; // Copy the contents of 
-                           // the non-empty child 
+                 }          // the non-empty child 
             free(temp); 
         } 
         else
