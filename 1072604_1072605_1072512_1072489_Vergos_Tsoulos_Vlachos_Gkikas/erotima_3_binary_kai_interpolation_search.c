@@ -43,6 +43,7 @@ if(c=='\n'){
 i++;
 }
 }
+//Needs change
 printf("Please give a date:\n");
 printf("Give year:\n");
 scanf("%d",&year);
@@ -50,7 +51,7 @@ printf("Give month:\n");
 scanf("%d",&month);
 printf("Give day:\n");
 scanf("%d",&day);
-printf("Volume of %d-%d-%d is %d\n",year,month,day,Binary_search(Open_array,year,month,day,0,count-1));
+printf("Volume of %d is %d\n",date,Binary_search(Open_array,date,0,count-1));
 printf("Please give a new date:\n");
 char give_date[11];
 int given_date;
@@ -63,33 +64,23 @@ printf("Volume of %d you gave is : %d\n",given_date,interpolationSearch(new_arra
 return 0;
 }
 //algorithmos dyadikhs anazhthshs.spame to pinaka se misa synexomena eos otou to stixio a[mid] na einai iso me ayto pou psaxnoume (an einai megalytero apo to a[mid] kitazoume deksi ypopinaka an mikrotero ston aristero
-int Binary_search(STOCK* array,int year,int month,int day,int left,int right){
+int Binary_search(STOCK* array,int date,int left,int right){
 if(left>right){
 return -1;
 }
 int mid=(right+left)/2;
-if(array[mid].year==year && array[mid].month==month && array[mid].day==day){
+//metatropi date sto stock* array
+//
+if(array[mid] == date){
 return array[mid].Volume;
 }
-else if(array[mid].year>year){
-return Binary_search(array,year,month,day,left,mid-1);
+else if(array[mid]>date){
+return Binary_search(array,date,left,mid-1);
 }
-else if(array[mid].year==year && array[mid].month>month)
-{
-return Binary_search(array,year,month,day,left,mid-1);
+else{
+return Binary_search(array,date,mid+1,right);
 }
-else if(array[mid].year==year && array[mid].month==month && array[mid].day>day){
-return Binary_search(array,year,month,day,left,mid-1);
-}
-else if(array[mid].year<year){
-return Binary_search(array,year,month,day,mid+1,right);
-}
-else if(array[mid].year==year && array[mid].month<month){
-return Binary_search(array,year,month,day,mid+1,right);
-}
-else if(array[mid].year==year && array[mid].month==month && array[mid].day<day){
-return Binary_search(array,year,month,day,mid+1,right);
-}
+//Updated binary search to use the trick with the 'combined date' to reduce code volume.
 }
 //algorithmos anazitisis me paremvoli
 
@@ -97,7 +88,7 @@ int interpolationSearch(int* arr,STOCK* array, int l, int h, int date)
 {
 int low=l;
 int high=h;
-while(arr[high]>=date && date>arr[low]){
+while((arr[high]>=date) && (date>arr[low])){
 int next = low + ((date-arr[low])/(arr[high]-arr[low]))*(high-low);
 if(date>arr[next]){
 low=next+1;
