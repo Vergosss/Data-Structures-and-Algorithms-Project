@@ -16,6 +16,7 @@ void QuickSort(STOCK* array,int left,int right);
 void swap(int* a,int* b);
 void swap1(double* a,double* b);
 void remove_all_chars(char* str, char c);
+void Sorted(STOCK* arr, int megethos);
 /////
 //main menu
 int main(){
@@ -52,12 +53,12 @@ Open_array[i].OpenInt=OpenInt;
 }
 fclose(f1);
 Print(Open_array,count);
-mergeSort(Open_array,0,count-1); //sortarisma meso mergesort
-printf("After MergeSort...\n");
-Print(Open_array,count);//typosi sortarismenou pinaka
-//QuickSort(Open_array,0,count-1); //sortarisma me quicksort
+//mergeSort(Open_array,0,count-1); //sortarisma meso mergesort
+//printf("After MergeSort...\n");
 //Print(Open_array,count);//typosi sortarismenou pinaka
-
+QuickSort(Open_array,0,count-1); //sortarisma me quicksort
+Print(Open_array,count);//typosi sortarismenou pinaka
+Sorted(Open_array,count);
 
 
 return 0;
@@ -236,4 +237,19 @@ void remove_all_chars(char* str, char c) {//function that accepts a string and a
         pw += (*pw != c);
     }
     *pw = '\0';
+}
+//helper function to check if array is sorted or not
+void Sorted(STOCK* arr, int megethos)
+{//prerequisite for a sorted array is array(i)<=array(i+1) for i=0,...,megethos-2
+int i;
+    for (int i = 1; i < megethos; i++) {
+        
+        if (arr[i - 1].Open > arr[i].Open){
+        	printf("Array not sorted\n");
+        	return;
+        }
+    }
+ 
+   printf("Array sorted\n");
+   return;
 }
