@@ -1,3 +1,4 @@
+//Libraries
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
@@ -7,6 +8,7 @@ int date;
 int Volume;
 }NODE_ONLY;
 */
+//AVL Tree node definition
 struct Node{
 int date;
 int Volume;
@@ -14,6 +16,7 @@ int Ypsos;
 struct Node* left;
 struct Node* right;
 };
+//function declarations
 int max_date(struct Node* riza);
 int min_date(struct Node* riza);
 void remove_all_chars(char* str,char c);
@@ -27,11 +30,12 @@ struct Node* deksia_peristrofi(struct Node* node);
 void endodiatetagmeni_diasxisi(struct Node* riza);
 struct Node* diagrafi(struct Node* add, int date);
 struct Node* min_node(struct Node* node); 
+//main menu
 int main(){
 struct Node* root=(struct Node*)malloc(sizeof(struct Node));
-root=NULL;
+root=NULL;//memory allocation and initialization of AVL tree root
 FILE* f1;
-f1=fopen("agn.us.txt","r");
+f1=fopen("agn.us.txt","r");//opening file
 if(f1==NULL){
 exit(1);
 }
@@ -39,33 +43,31 @@ int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("agn.us.txt","r+");
-float Open,High,Low,Close;
-Open=High=Low=Close=0.0;
+double Open,High,Low,Close;
+Open=High=Low=Close=0.0;// temporary variables to hold each field of a line
 int Volume,OpenInt;
 Volume=OpenInt=0;
 int i=0;
 int temp=0;
 char date[11];
-char z=fgetc(f1);
-while(z!=EOF)
-{
-fscanf(f1,"%s,%f,%f,%f,%f,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt);
 
-remove_all_chars(date,'-');
-temp=(int)atoi(date);
-root=eisagogi(root,temp,Volume);
-z=fgetc(f1);
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
+{//this prevents skipping first character of the file and also prevents reading last line twice
+//printf("%s,%f,%f,%f,%f,%d%d\n",date,Open,High,Low,Close,Volume,OpenInt);
+remove_all_chars(date,'-');//convert date string to int maintaining dates' order
+temp=(int)atoi(date);//cast to int
+root=eisagogi(root,temp,Volume);//till the end of the file insert for each line a node in the tree
+//z=fgetc(f1); this prevents skipping first character of the file
 
-if(z=='\n'){
-i++;
+
 }
-}
-int choice;
+fclose(f1);//close file
+int choice;//menu choice
 char give_date[11];
 int given_date;
-while(1){
+while(1){//main menu
 printf("1 for inorder traversal 2 for searching 3 for modification 4 for deletion and 5 to exit\n");
-scanf("%d",&choice);
+scanf("%d",&choice);//user's input choice
 switch(choice){
 	case 1:
 		endodiatetagmeni_diasxisi(root);

@@ -46,7 +46,7 @@ char z=fgetc(f1);
 while(z!=EOF)
 {
 fscanf(f1,"%s,%f,%f,%f,%f,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt);//scan file's line
-remove_all_chars(date,'-');//convert date string to int mainting dates' order
+remove_all_chars(date,'-');//convert date string to int maintaining dates' order
 temp=(int)atoi(date);//cast to int
 root=eisagogi(root,temp,Volume);//till the end of the file insert for each line a node in the tree
 z=fgetc(f1);
