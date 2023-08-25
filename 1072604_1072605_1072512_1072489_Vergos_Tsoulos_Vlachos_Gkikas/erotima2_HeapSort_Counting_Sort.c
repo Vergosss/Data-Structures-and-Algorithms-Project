@@ -220,3 +220,18 @@ max=arr[i].Close;
 }
 return max;
 }
+//helper function to check if array is sorted or not
+void Sorted(STOCK* arr, int megethos)
+{//prerequisite for a sorted array is array(i)<=array(i+1) for i=0,...,megethos-2
+int i;
+    for (int i = 1; i < megethos; i++) {
+        
+        if (arr[i - 1].Open > arr[i].Open){
+        	printf("Array not sorted\n");
+        	return;
+        }
+    }
+ 
+   printf("Array sorted\n");
+   return;
+}
