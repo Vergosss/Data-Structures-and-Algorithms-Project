@@ -47,6 +47,7 @@ Open_array[i].OpenInt=OpenInt;
 ++i;
 
 }
+fclose(f1);
 //Needs change
 char give_date[11];
 int given_date;

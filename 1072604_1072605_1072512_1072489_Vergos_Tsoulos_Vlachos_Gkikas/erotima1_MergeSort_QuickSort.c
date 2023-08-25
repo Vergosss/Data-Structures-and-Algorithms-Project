@@ -1,18 +1,23 @@
+//libraries
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+//Stock data type
 typedef struct Stock{
-int year,month,day,Volume,OpenInt;
-float Open,High,Low,Close;
+int date,Volume,OpenInt;
+double Open,High,Low,Close;
 }STOCK;
+//function declarations
 int Count_file(FILE* fp);
 void merge(STOCK* arr,int low,int mid,int rear);
 void mergeSort(STOCK* arr,int low,int rear);
 void Print(STOCK* arr,int megethos);
 void QuickSort(STOCK* array,int left,int right);
 void swap(int* a,int* b);
-void swap1(float* a,float* b);
+void swap1(double* a,double* b);
+void remove_all_chars(char* str, char c);
 /////
+//main menu
 int main(){
 FILE* f1;
 f1=fopen("ale.us.txt","r+");
@@ -22,30 +27,28 @@ exit(1);
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
 STOCK Open_array[count];
-int year,month,day,Volume,OpenInt;
-year,month,day,Volume=OpenInt=0;
-float Open,High,Low,Close;
-Open=High=Low=Close=0.0;
+int Volume,OpenInt;
+Volume=OpenInt=0;
+double Open,High,Low,Close;
+Open=High=Low=Close=0.0;//assistant variables to hold each field of the file
 int i=0;
 int temp=0;
-char c=fgetc(f1);
-while(c!=EOF)
+char date[11];
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
 {
-fscanf(f1,"%d-%d-%d,%f,%f,%f,%f,%d,%d",&year,&month,&day,&Open,&High,&Low,&Close,&Volume,&OpenInt);
+remove_all_chars(date,'-');//convert date string to int maintaining dates' order
+temp=(int)atoi(date);//cast to int
 Open_array[i].Open=Open;
-Open_array[i].month=month;
-Open_array[i].year=year;
-Open_array[i].day=day;
+Open_array[i].date=temp;
 Open_array[i].Close=Close;
 Open_array[i].High=High;
 Open_array[i].Low=Low;
 Open_array[i].Volume=Volume;
 Open_array[i].OpenInt=OpenInt; //pername tis metavlites diladi kathe pedio kathe grammis tou arxeiou sta antistixa pedia kathe stixiou tou pinaka
-c=getc(f1);
-if(c=='\n'){
-i++;
+++i;
+
 }
-}
+fclose(f1);
 Print(Open_array,count);
 mergeSort(Open_array,0,count-1); //sortarisma meso mergesort
 printf("After MergeSort...\n");
@@ -53,7 +56,7 @@ Print(Open_array,count);//typosi sortarismenou pinaka
 QuickSort(Open_array,0,count-1); //sortarisma me quicksort
 Print(Open_array,count);//typosi sortarismenou pinaka
 
-fclose(f1);
+
 
 return 0;
 }
@@ -73,9 +76,7 @@ void merge(STOCK* arr, int low, int mid, int rear)
         L[i].Close = arr[low + i].Close;
         L[i].High = arr[low + i].High;
         L[i].Low = arr[low + i].Low;
-        L[i].year = arr[low + i].year;
-        L[i].month = arr[low + i].month;
-        L[i].day = arr[low + i].day;
+        L[i].date = arr[low+i].date;
         L[i].Volume = arr[low + i].Volume;
         L[i].OpenInt = arr[low + i].OpenInt;
     }
@@ -84,9 +85,7 @@ void merge(STOCK* arr, int low, int mid, int rear)
         R[j].Close =arr[mid + 1 + j].Close;
         R[j].High =arr[mid + 1 + j].High;
         R[j].Low =arr[mid + 1 + j].Low;
-        R[j].year =arr[mid + 1 + j].year;
-        R[j].month =arr[mid + 1 + j].month;
-        R[j].day =arr[mid + 1 + j].day;
+       	R[j].date = arr[mid+1+j].date;
         R[j].Volume =arr[mid + 1 + j].Volume;
         R[j].OpenInt =arr[mid + 1 + j].OpenInt;
     }
@@ -94,26 +93,22 @@ void merge(STOCK* arr, int low, int mid, int rear)
     j = 0;
     k = low;
     while (i < n1 && j < n2) {
-        if ((float)L[i].Open <=(float) R[j].Open) {
+        if ((double)L[i].Open <=(double) R[j].Open) {
         arr[k].Open =L[i].Open;
         arr[k].Close =L[i].Close;
         arr[k].High =L[i].High;
         arr[k].Low =L[i].Low;
-        arr[k].year =L[i].year;
-        arr[k].month =L[i].month;
-        arr[k].day =L[i].day;
+        arr[k].date =L[i].date;
         arr[k].OpenInt =L[i].OpenInt;
         arr[k].Volume =L[i].Volume;
             i++;
         }
         else {
-            arr[k].Open = (float)R[j].Open;
+            arr[k].Open = (double)R[j].Open;
             arr[k].Close=R[j].Close;
             arr[k].High=R[j].High;
             arr[k].Low=R[j].Low;
-            arr[k].year=R[j].year;
-            arr[k].month=R[j].month;
-            arr[k].day=R[j].day;
+            arr[k].date=R[j].date;
             arr[k].OpenInt=R[j].OpenInt;
             arr[k].Volume=R[j].Volume;
             j++;
@@ -126,9 +121,7 @@ void merge(STOCK* arr, int low, int mid, int rear)
         arr[k].Close =L[i].Close;
         arr[k].High =L[i].High;
         arr[k].Low =L[i].Low;
-        arr[k].year =L[i].year;
-        arr[k].month =L[i].month;
-        arr[k].day =L[i].day;
+        arr[k].date =L[i].date;
         arr[k].OpenInt =L[i].OpenInt;
         arr[k].Volume =L[i].Volume;
         i++;
@@ -136,13 +129,11 @@ void merge(STOCK* arr, int low, int mid, int rear)
     }
 
     while (j < n2) {
-        arr[k].Open = (float)R[j].Open;
+        arr[k].Open = (double)R[j].Open;
             arr[k].Close=R[j].Close;
             arr[k].High=R[j].High;
             arr[k].Low=R[j].Low;
-            arr[k].year=R[j].year;
-            arr[k].month=R[j].month;
-            arr[k].day=R[j].day;
+            arr[k].date=R[j].date;
             arr[k].OpenInt=R[j].OpenInt;
             arr[k].Volume=R[j].Volume;
         j++;
@@ -164,7 +155,7 @@ algorithmos QuickSort ylopoihmenos basei diafaneivn kyriou siouta apo to eclass
 */
 void QuickSort(STOCK* array,int left,int right){
 int leftarrow,rightarrow;
-float pivot;// check here for bugs - Propably not
+double pivot;// check here for bugs - Propably not
 leftarrow=left;
 rightarrow=right;
 pivot=array[(left+right)/2].Open;
@@ -180,7 +171,7 @@ swap1(&array[leftarrow].Low,&array[rightarrow].Low);
 swap1(&array[leftarrow].High,&array[rightarrow].High);
 swap1(&array[leftarrow].Open,&array[rightarrow].Open);
 swap1(&array[leftarrow].Close,&array[rightarrow].Close);
-//swap(&array[leftarrow].date,&array[rightarrow].date);
+swap(&array[leftarrow].date,&array[rightarrow].date);
 swap(&array[leftarrow].Volume,&array[rightarrow].Volume);
 swap(&array[leftarrow].OpenInt,&array[rightarrow].OpenInt);
 ++leftarrow;
@@ -218,8 +209,8 @@ void swap(int* a,int* b)
     *a = *b;
     *b = t;
 }
-void swap1(float* a,float* b){
-float t= *a;
+void swap1(double* a,double* b){
+double t= *a;
 *a= *b;
 *b= t;
 }
@@ -229,8 +220,18 @@ synarthsh pou pernei os orisma pinaka akeraion kai typonei ta stixia tou
 void Print(STOCK* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
-printf("%d-%d-%d-%f\n",arr[i].year,arr[i].month,arr[i].day,(float)arr[i].Open);
+printf("%d-%lf\n",arr[i].date,(double)arr[i].Open);
 }
 return;
 
+}
+//
+void remove_all_chars(char* str, char c) {//function that accepts a string and a character. it removes this character and deletes the space in the
+//deleted position.
+    char *pr = str, *pw = str;
+    while (*pr) {
+        *pw = *pr++;
+        pw += (*pw != c);
+    }
+    *pw = '\0';
 }
