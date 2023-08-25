@@ -10,6 +10,10 @@ double Open,High,Low,Close;
 //function definitions
 void Print(STOCK* arr,int megethos);
 void remove_all_chars(char* str,char c);
+int Count_file(FILE* fp);
+int interpolationSearch(STOCK* array, int l, int h, int date);
+int Binary_search(STOCK* array,int date,int left,int right);
+//main menu
 int main(){
 FILE* f1;
 f1=fopen("agn.us.txt","r");
@@ -21,11 +25,10 @@ printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("agn.us.txt","r+");
 STOCK Open_array[count];
-int year,Volume,OpenInt,month,day;
-year=month=day=Volume=OpenInt=0;
+int Volume,OpenInt;
+Volume=OpenInt=0;
 double Open,High,Low,Close;
 Open=High=Low=Close=0.0;//assistant variables to hold each field of the file
-int new_array[count];
 int temp=0;
 int i=0;
 char date[11];
@@ -59,7 +62,7 @@ printf("Give date in format: YYYY-MM-DD \n");
 scanf("%s",give_date);
 remove_all_chars(give_date,'-');
 given_date=(int)atoi(give_date);
-printf("Volume of %d you gave is : %d\n",given_date,interpolationSearch(new_array,Open_array,0,count-1,given_date));
+printf("Volume of %d you gave is : %d\n",given_date,interpolationSearch(Open_array,0,count-1,given_date));
 //dinoume hmeromhnies kai tis kanoume searching
 return 0;
 }
@@ -84,23 +87,23 @@ return Binary_search(array,date,mid+1,right);
 }
 //algorithmos anazitisis me paremvoli
 
-int interpolationSearch(int* arr,STOCK* array, int l, int h, int date)
+int interpolationSearch(STOCK* array, int l, int h, int date)
 {
 int low=l;
 int high=h;
-while((arr[high]>=date) && (date>arr[low])){
-int next = low + ((date-arr[low])/(arr[high]-arr[low]))*(high-low);
-if(date>arr[next]){
+while((array[high].date>=date) && (date>array[low].date)){
+int next = low + ((date-array[low].date)/(array[high].date-array[low].date))*(high-low);
+if(date>array[next].date){
 low=next+1;
 }
-else if(date<arr[next]){
+else if(date<array[next].date){
 high=next-1;
 }
 else{
 low=next; //ypologizoume thn timh tou next kai analoga th sxesh tou stixiou tou pinaka me ayto os deikth kai aytou pou psaxnoume metakinoumaste eite kato h pano sto pinaka
 }
 }
-if(date==arr[low]){
+if(date==array[low].date){
 return array[low].Volume;
 }
 else{

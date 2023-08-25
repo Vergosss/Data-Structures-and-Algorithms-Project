@@ -30,6 +30,9 @@ struct Node* deksia_peristrofi(struct Node* node);
 void endodiatetagmeni_diasxisi(struct Node* riza);
 struct Node* diagrafi(struct Node* add, int date);
 struct Node* min_node(struct Node* node); 
+int search(struct Node* root,int date);
+int Count_file(FILE* fp);
+int tropopoihsh_Volume(struct Node* root,int date);
 //main menu
 int main(){
 struct Node* root=(struct Node*)malloc(sizeof(struct Node));
