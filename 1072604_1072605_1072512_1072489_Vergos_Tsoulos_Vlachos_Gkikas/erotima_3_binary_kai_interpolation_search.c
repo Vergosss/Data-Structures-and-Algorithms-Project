@@ -51,6 +51,7 @@ fclose(f1);
 //Needs change
 char give_date[11];
 int given_date;
+Print(Open_array,count);
 printf("Give date in format: YYYY-MM-DD \n");
 scanf("%s",give_date);
 remove_all_chars(give_date,'-');
@@ -137,3 +138,11 @@ void remove_all_chars(char* str, char c) {//function that accepts a string and a
 }
 
 
+void Print(STOCK* arr,int megethos){
+int i;
+for(i=0;i<megethos;i++){
+printf("%d,%lf\n",arr[i].date,(double)arr[i].Open);
+}
+return;
+
+}

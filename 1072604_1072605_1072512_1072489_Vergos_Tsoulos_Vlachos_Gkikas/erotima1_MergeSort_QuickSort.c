@@ -20,12 +20,14 @@ void remove_all_chars(char* str, char c);
 //main menu
 int main(){
 FILE* f1;
-f1=fopen("ale.us.txt","r+");
+f1=fopen("ale.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
+fclose(f1);
+f1=fopen("ale.us.txt","r+");//needed to avoid garbage
 STOCK Open_array[count];
 int Volume,OpenInt;
 Volume=OpenInt=0;
@@ -39,12 +41,12 @@ while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volu
 remove_all_chars(date,'-');//convert date string to int maintaining dates' order
 temp=(int)atoi(date);//cast to int
 Open_array[i].Open=Open;
-Open_array[i].date=temp;
 Open_array[i].Close=Close;
+Open_array[i].date=temp;
 Open_array[i].High=High;
 Open_array[i].Low=Low;
 Open_array[i].Volume=Volume;
-Open_array[i].OpenInt=OpenInt; //pername tis metavlites diladi kathe pedio kathe grammis tou arxeiou sta antistixa pedia kathe stixiou tou pinaka
+Open_array[i].OpenInt=OpenInt;
 ++i;
 
 }
@@ -53,8 +55,8 @@ Print(Open_array,count);
 mergeSort(Open_array,0,count-1); //sortarisma meso mergesort
 printf("After MergeSort...\n");
 Print(Open_array,count);//typosi sortarismenou pinaka
-QuickSort(Open_array,0,count-1); //sortarisma me quicksort
-Print(Open_array,count);//typosi sortarismenou pinaka
+//QuickSort(Open_array,0,count-1); //sortarisma me quicksort
+//Print(Open_array,count);//typosi sortarismenou pinaka
 
 
 
@@ -201,7 +203,7 @@ return count;
 }
 
 /*
-voithitikes synartiseis swap kai swap1 h swap enalasei akeraious eno h swap1 enalasei floats
+voithitikes synartiseis swap kai swap1 h swap enalasei akeraious eno h swap1 enalasei doubles
 */
 void swap(int* a,int* b)
 {
@@ -220,7 +222,7 @@ synarthsh pou pernei os orisma pinaka akeraion kai typonei ta stixia tou
 void Print(STOCK* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
-printf("%d-%lf\n",arr[i].date,(double)arr[i].Open);
+printf("%d,%lf\n",arr[i].date,(double)arr[i].Open);
 }
 return;
 
