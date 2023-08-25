@@ -52,13 +52,31 @@ Open_array[i].OpenInt=OpenInt;
 
 }
 fclose(f1);
-Print(Open_array,count);
-//mergeSort(Open_array,0,count-1); //sortarisma meso mergesort
-//printf("After MergeSort...\n");
-//Print(Open_array,count);//typosi sortarismenou pinaka
-QuickSort(Open_array,0,count-1); //sortarisma me quicksort
-Print(Open_array,count);//typosi sortarismenou pinaka
-Sorted(Open_array,count);
+
+int choice;//menu choice
+while(1){//main menu
+printf("1 for table printing 2 for MergeSort 3 for QuickSort 4 to check if it is sorted 5 to exit\n");
+scanf("%d",&choice);//user's input choice
+switch(choice){
+	case 1:
+		Print(Open_array,count);
+		break;
+	case 2:
+		mergeSort(Open_array,0,count-1);
+		break;
+	case 3:
+		QuickSort(Open_array,0,count-1);
+		break;
+	case 4:
+		Sorted(Open_array,count);
+		break;
+	case 5:
+		exit(0);
+		break;
+	}
+
+}
+
 
 
 return 0;
