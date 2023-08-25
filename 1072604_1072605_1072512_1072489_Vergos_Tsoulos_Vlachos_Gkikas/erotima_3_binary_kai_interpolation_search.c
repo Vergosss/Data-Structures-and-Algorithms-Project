@@ -7,7 +7,7 @@ typedef struct Stock{
 int date,Volume,OpenInt;
 double Open,High,Low,Close;
 }STOCK;
-//function definitions
+//function declarations
 void Print(STOCK* arr,int megethos);
 void remove_all_chars(char* str,char c);
 int Count_file(FILE* fp);
@@ -66,6 +66,7 @@ printf("Volume of %d you gave is : %d\n",given_date,interpolationSearch(Open_arr
 //dinoume hmeromhnies kai tis kanoume searching
 return 0;
 }
+//function definitions
 //algorithmos dyadikhs anazhthshs.spame to pinaka se misa synexomena eos otou to stixio a[mid] na einai iso me ayto pou psaxnoume (an einai megalytero apo to a[mid] kitazoume deksi ypopinaka an mikrotero ston aristero
 int Binary_search(STOCK* array,int date,int left,int right){
 if(left>right){
