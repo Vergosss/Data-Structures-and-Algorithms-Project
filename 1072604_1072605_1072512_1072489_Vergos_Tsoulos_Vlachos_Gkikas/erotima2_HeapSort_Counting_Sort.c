@@ -1,69 +1,75 @@
+//Libraries
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+//Stock and Stock_ custom data type
 typedef struct Stock{
-int year,month,day,Volume,OpenInt;
-float Open,High,Low,Close;
+int date,Volume,OpenInt;
+double Open,High,Low,Close;
 }STOCK;
 typedef struct Stock_{
-int year,month,day;
+int date;
 int Close;
 }STOCK_;
+//function declarations
+void remove_all_chars(char* str, char c);
 int Count_file(FILE* fp);
 void HeapSort(STOCK* array,int size);
 void Counting_Sort(STOCK_* A,STOCK_* B,int k,int megethos);
 void Print(STOCK* arr,int megethos);
-void Print_(STOCK_* arr,int megethos);//synarthsh Print_ typonei stixia enos pinaka STOCK_. epeidh o counting sort leitourgei se akeraious strogylopoioume ston plisiestero akeraio
+void Print_(STOCK_* arr,int megethos);//synarthsh Print_ typonei stixia enos pinaka STOCK_. epeidh o counting sort leitourgei se akeraious //strogylopoioume ston plisiestero akeraio
 void swap(int* a,int* b);
-void swap1(float* a,float* b);
+void swap1(double* a,double* b);
+void Sorted(STOCK* arr, int megethos);
+int Find_Max(STOCK_* arr,int megethos);
 /////
+//main menu
 int main(){
 FILE* f1;
-f1=fopen("ale.us.txt","r+");
+f1=fopen("ale.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
+fclose(f1);
+f1=fopen("ale.us.txt","r+");//needed to avoid garbage
 STOCK Open_array[count];
 STOCK_ Open_array2[count];
 STOCK_ Open_array3[count];
-int year,month,day,Volume,OpenInt;
-year,month,day,Volume=OpenInt=0;
-float Open,High,Low,Close;
+int Volume,OpenInt;
+Volume=OpenInt=0;
+double Open,High,Low,Close;
 Open=High=Low=Close=0.0;
 int i=0;
 int temp=0;
-char c=fgetc(f1);
-while(c!=EOF)
+char date[11];
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
 {
-fscanf(f1,"%d-%d-%d,%f,%f,%f,%f,%d,%d",&year,&month,&day,&Open,&High,&Low,&Close,&Volume,&OpenInt);
+remove_all_chars(date,'-');//convert date string to int maintaining dates' order
+temp=(int)atoi(date);//cast to int
 Open_array[i].Open=Open;
-Open_array[i].month=month;
-Open_array[i].year=year;
-Open_array[i].day=day;
 Open_array[i].Close=Close;
 Open_array[i].High=High;
+Open_array[i].date=temp;
 Open_array[i].Low=Low;
 Open_array[i].Volume=Volume;
 Open_array[i].OpenInt=OpenInt;
 //
-Open_array2[i].month=month;
-Open_array2[i].year=year;
-Open_array2[i].day=day;
+Open_array2[i].date=temp;
 Open_array2[i].Close=(int)(round(Close));//strogylopoihsh ston plisiestero akeraio
-c=getc(f1);
-if(c=='\n'){
-i++;
+
+++i;
+
 }
-}
+fclose(f1);
 Print(Open_array,count);
 HeapSort(Open_array,count);
 printf("After heapsort...\n");
 Print(Open_array,count);
 int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
-Counting_Sort(Open_array3,Open_array2,k,count);
-Print_(Open_array3,count);
+//Counting_Sort(Open_array3,Open_array2,k,count);
+//Print_(Open_array3,count);
 return 0;
 }
 
@@ -135,6 +141,10 @@ E:
 }
 //return array;
 }
+/*
+
+synarthsh pou metra tis grames tou arxeiou.xrisimi giana vroume to megethos tou pinaka
+*/
 int Count_file(FILE* fp){
 char c=getc(fp);
 int count=0;
@@ -144,11 +154,9 @@ count = count + 1;}
 }
 return count;
 }
+
 /*
-synarthsh pou pernei os orisma pinaka akeraion kai typonei ta stixia tou
-*/
-/*
-voithitikes synartiseis swap kai swap1 h swap enalasei akeraious eno h swap1 enalasei floats
+voithitikes synartiseis swap kai swap1 h swap enalasei akeraious eno h swap1 enalasei doubles
 */
 void swap(int* a,int* b)
 {
@@ -156,23 +164,26 @@ void swap(int* a,int* b)
     *a = *b;
     *b = t;
 }
-void swap1(float* a,float* b){
-float t= *a;
+void swap1(double* a,double* b){
+double t= *a;
 *a= *b;
 *b= t;
 }
 void Print_(STOCK_* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
-printf("%d-%d-%d-%f\n",arr[i].year,arr[i].month,arr[i].day,arr[i].Close);
+printf("%d,%lf\n",arr[i].date,arr[i].Close);
 }
 return;
 
 }
+/*
+synarthsh pou pernei os orisma pinaka akeraion kai typonei ta stixia tou
+*/
 void Print(STOCK* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
-printf("%d-%d-%d-%f\n",arr[i].year,arr[i].month,arr[i].day,(float)arr[i].Open);
+printf("%d,%f\n",arr[i].date,(double)arr[i].Open);
 }
 return;
 
@@ -234,4 +245,13 @@ int i;
  
    printf("Array sorted\n");
    return;
+}
+void remove_all_chars(char* str, char c) {//function that accepts a string and a character. it removes this character and deletes the space in the
+//deleted position.
+    char *pr = str, *pw = str;
+    while (*pr) {
+        *pw = *pr++;
+        pw += (*pw != c);
+    }
+    *pw = '\0';
 }
