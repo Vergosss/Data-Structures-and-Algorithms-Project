@@ -35,25 +35,20 @@ int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("agn.us.txt","r+");
-float Open,High,Low,Close;
+double Open,High,Low,Close;
 Open=High=Low=Close=0.0;
 int Volume,OpenInt;
 Volume=OpenInt=0;// temporary variables to hold each field of a line
 int i=0;
 int temp=0;
 char date[11];
-char z=fgetc(f1);
-while(z!=EOF)
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
 {
-fscanf(f1,"%s,%f,%f,%f,%f,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt);//scan file's line
+//printf("%s,%lf,%lf,%lf,%lf,%d,%d\n",date,Open,High,Low,Close,Volume,OpenInt);
 remove_all_chars(date,'-');//convert date string to int maintaining dates' order
 temp=(int)atoi(date);//cast to int
 root=eisagogi(root,temp,Volume);//till the end of the file insert for each line a node in the tree
-z=fgetc(f1);
 
-if(z=='\n'){
-i++;
-}
 }
 int choice;//menu choice
 fclose(f1);//finish reading file
@@ -179,7 +174,7 @@ return x;
 int max_Volume(struct Node* riza){
 struct Node* temp=riza;
 while(temp->right!=NULL){
-temp=temp->right;
+temp=temp->right;// AVL tree is a binary search tree sto Volume(left-subtree)<Volume(current root)<Volume(right-subtree) recursively
 }
 return temp->date;
 
