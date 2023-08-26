@@ -67,7 +67,7 @@ Print(Open_array,count);
 HeapSort(Open_array,count);
 printf("After heapsort...\n");
 Print(Open_array,count);
-int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
+//int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
 //Counting_Sort(Open_array3,Open_array2,k,count);
 //Print_(Open_array3,count);
 return 0;
@@ -91,9 +91,8 @@ swap1(&array[0].High,&array[rear].High);
 swap1(&array[0].Low,&array[rear].Low);
 swap(&array[0].Volume,&array[rear].Volume);
 swap(&array[0].OpenInt,&array[rear].OpenInt);
-swap(&array[0].year,&array[rear].year);
-swap(&array[0].month,&array[rear].month);
-swap(&array[0].day,&array[rear].day);
+swap(&array[0].date,&array[rear].date);
+
 rear=rear-1;
 j=0;
 }
@@ -103,9 +102,7 @@ s.High=array[j].High;
 s.OpenInt=array[j].OpenInt;
 s.Low=array[j].Low;
 s.Volume=array[j].Volume;
-s.day=array[j].day;
-s.month=array[j].month;
-s.year=array[j].year;
+s.date=array[j].date;
 
 while(2*j<=rear){
 k=2*j;
@@ -119,9 +116,7 @@ array[j].High=array[k].High;
 array[j].Low=array[k].Low;
 array[j].Volume=array[k].Volume;
 array[j].OpenInt=array[k].OpenInt;
-array[j].year=array[k].year;
-array[j].month=array[k].month;
-array[j].day=array[k].day;
+array[j].date=array[k].date;
 j=k;
 }
 else{
@@ -133,9 +128,7 @@ E:
     array[j].Open=s.Open;
     array[j].High=s.High;
     array[j].Low=s.Low;
-    array[j].year=s.year;
-    array[j].month=s.month;
-    array[j].day=s.day;
+   	array[j].date=s.date;
     array[j].Volume=s.Volume;
     array[j].OpenInt=s.OpenInt;
 }
@@ -172,7 +165,7 @@ double t= *a;
 void Print_(STOCK_* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
-printf("%d,%lf\n",arr[i].date,arr[i].Close);
+printf("%d,%d\n",arr[i].date,arr[i].Close);
 }
 return;
 
@@ -205,16 +198,13 @@ C[i]+=C[i-1];
 }
 for(j=megethos-1;j>=0;j--){
 B[C[A[j].Close]-1].Close=A[j].Close;
-B[C[A[j].Close]-1].year=A[j].year;
-B[C[A[j].Close]-1].month=A[j].month;
-B[C[A[j].Close]-1].day=A[j].day;
+B[C[A[j].Close]-1].date=A[j].date;
 C[A[j].Close]--;
 }
 for(i=0;i<megethos;i++){
 A[i].Close=B[i].Close;
-A[i].day=B[i].day;
-A[i].month=B[i].month;
-A[i].year=B[i].year;
+A[i].date=B[i].date;
+
 }
 }
 /*
@@ -224,7 +214,7 @@ int Find_Max(STOCK_* arr,int megethos){
 int i;
 int max;
 max=arr[0].Close;
-for(i=0;i<megethos;i++){
+for(i=1;i<megethos;i++){
 if(arr[i].Close>max){
 max=arr[i].Close;
 }
