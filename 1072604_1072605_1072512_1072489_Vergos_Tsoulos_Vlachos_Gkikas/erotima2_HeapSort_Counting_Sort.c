@@ -15,7 +15,7 @@ int Close;
 void remove_all_chars(char* str, char c);
 int Count_file(FILE* fp);
 void HeapSort(STOCK* array,int size);
-void Counting_Sort(STOCK_* A,STOCK_* B,int k,int megethos);
+void Counting_Sort(STOCK_* A,int k,int megethos);
 void Print(STOCK* arr,int megethos);
 void Print_(STOCK_* arr,int megethos);//synarthsh Print_ typonei stixia enos pinaka STOCK_. epeidh o counting sort leitourgei se akeraious //strogylopoioume ston plisiestero akeraio
 void swap(int* a,int* b);
@@ -37,7 +37,6 @@ fclose(f1);
 f1=fopen("ale.us.txt","r+");//needed to avoid garbage
 STOCK Open_array[count];
 STOCK_ Open_array2[count];
-STOCK_ Open_array3[count];
 int Volume,OpenInt;
 Volume=OpenInt=0;
 double Open,High,Low,Close;
@@ -80,7 +79,7 @@ switch(choice){
 		Sorted_(Open_array2,count);
 		break;
 	case 4:
-		Counting_Sort(Open_array3,Open_array2,k,count);
+		Counting_Sort(Open_array2,k,count);
 		break;
 	case 5:
 		exit(0);
@@ -204,14 +203,15 @@ return;
 /*
 algorithmos counting sort ylopoihmenos me th voitheia tou pseydokodika apo to vivlio tou kiriou tsakalidi
 */
-void Counting_Sort(STOCK_* A,STOCK_* B,int k,int megethos){
+void Counting_Sort(STOCK_* A,int k,int megethos){
+STOCK_ B[k+1];//output array
 int C[k+1];//k is the 'max'
 int i,j;
 for(i=0;i<=k;i++){
 C[i]=0;//count initialization with zeros
 }
 for(j=0;j<megethos;j++){
-C[A[j].Close]+=1;//store count of each element
+C[A[j].Close]++;//store count of each element
 }
 for(i=1;i<=k;i++){
 C[i]+=C[i-1];//apothikeysh tou 'syssoreytikou' plithous tou array
