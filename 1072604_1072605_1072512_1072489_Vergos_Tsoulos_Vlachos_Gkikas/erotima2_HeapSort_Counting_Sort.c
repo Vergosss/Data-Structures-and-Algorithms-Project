@@ -8,8 +8,7 @@ int date,Volume,OpenInt;
 double Open,High,Low,Close;
 }STOCK;
 typedef struct Stock_{
-int date;
-int Close;
+int date,Close;
 }STOCK_;
 //function declarations
 void remove_all_chars(char* str, char c);
@@ -208,14 +207,14 @@ algorithmos counting sort ylopoihmenos me th voitheia tou pseydokodika apo to vi
 void Counting_Sort(STOCK_* A,int megethos){
 int i;
 int max;
-max=A[0].Close;
+max=(A[0].Close);
 for(i=1;i<megethos;i++){
-if(A[i].Close>max){
-max=A[i].Close;
+if((A[i].Close)>max){
+max=(A[i].Close);
 }
 }
 //
-STOCK_* B=(STOCK_*)malloc((max+1)*sizeof(STOCK_));//output array
+STOCK_* B=(STOCK_*)malloc(megethos*sizeof(STOCK_));//output array-- FIXED HERE WRONG SIZE
 int* C=(int*)malloc((max+1)*sizeof(int));//k is the max
 int j;
 for(i=0;i<=max;i++){
