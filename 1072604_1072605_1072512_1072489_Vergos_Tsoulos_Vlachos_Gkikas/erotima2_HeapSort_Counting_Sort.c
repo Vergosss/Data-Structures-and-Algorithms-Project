@@ -63,6 +63,31 @@ Open_array2[i].Close=(int)(round(Close));//strogylopoihsh ston plisiestero akera
 
 }
 fclose(f1);
+
+int choice;//menu choice
+while(1){//main menu
+printf("1 for table printing 2 for HeapSort 3 to check if it sorted and 4 to exit\n");
+scanf("%d",&choice);//user's input choice
+switch(choice){
+	case 1:
+		Print(Open_array,count);
+		break;
+	case 2:
+		HeapSort(Open_array,count);
+		break;
+	case 3:
+		Sorted(Open_array,count);
+		break;
+	case 4:
+		exit(0);
+		break;
+	}
+
+}
+
+
+
+
 Print(Open_array,count);
 HeapSort(Open_array,count);
 printf("After heapsort...\n");
@@ -106,7 +131,7 @@ s.date=array[j].date;
 
 while(2*j<=rear){
 k=2*j;
-if(k<rear&& array[k].Close<array[k+1].Close){
+if(k<rear && array[k].Close<array[k+1].Close){
 k++;
 }
 if(s.Close<array[k].Close){
