@@ -108,6 +108,30 @@ algorithmos diikis anazitisis paremvolis. Ylopoihmenos basei tou vivliou tou kyr
 */
 int binary_interpolation_search(STOCK* array,int date,int megethos){
 int i;
+//find max
+int max,min;
+max=array[0].date;
+for(i=1;i<megethos;i++){
+if(array[i].date>max){
+max=array[i].date;
+}
+}
+//check if max is exceeded
+if(date>max){
+return -1;
+}
+//find min
+min=array[0].date;
+for(i=1;i<megethos;i++){
+if(array[i].date<min){
+min=array[i].date;
+}
+}
+//check if min is exceeded
+if(date<min){
+return -1;
+}
+//
 int left=0;//in C first index is 0
 int right=megethos-1;//in C last index is size-1
 int size=right-left+1;//array size
@@ -121,6 +145,7 @@ return LinearSearch(array,left,right,date);
 if(date>=array[next].date){
 while(date>array[next+i*(int)(floor(sqrt(size)))-1].date){
 i++; //sth veltiosh xeirisths periptosis tha exoume i=2*i;
+//i=2*i;
 }
 right=next+i*(int)(floor(sqrt(size)));
 left=next+(i-1)*(int)(floor(sqrt(size)));
@@ -128,6 +153,7 @@ left=next+(i-1)*(int)(floor(sqrt(size)));
 else if(date<array[next].date){
 while(date<array[next-i*(int)(floor(sqrt(size)))+1].date){
 i++; //sth veltiosh xeirisths periptosis tha exoume i=2*i;
+//i=2*i;
 }
 right=next-(i-1)*(int)(floor(sqrt(size)));
 left=next-i*(int)(floor(sqrt(size)));
@@ -167,6 +193,6 @@ return;
 }
 
 }
-printf("The algorithm works\n");
+printf("The algorithm works %d\n",i);//check if it truly iterated all array values
 return;
 }
