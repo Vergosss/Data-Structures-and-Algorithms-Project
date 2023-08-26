@@ -67,22 +67,28 @@ fclose(f1);
 //printf("Max is : %d\n",k);
 int choice;//menu choice
 while(1){//main menu
-printf("1 for table printing 2 for HeapSort 3 to check if it sorted and 4 for CountingSort and 5 to exit\n");
+printf("1 for Counting sort table printing, 2 for Counting Sort, 3 to check if it is sorted with counting sort, 4 for Heap Sort table printing, 5 for HeapSort, 6 to check if sorted with HeapSort and 7 to exit\n");
 scanf("%d",&choice);//user's input choice
 switch(choice){
 	case 1:
 		Print_(Open_array2,count);
 		break;
 	case 2:
-		HeapSort(Open_array,count);
+		Counting_Sort(Open_array2,count);
 		break;
 	case 3:
 		Sorted_(Open_array2,count);
 		break;
 	case 4:
-		Counting_Sort(Open_array2,count);
+		Print(Open_array,count);
 		break;
 	case 5:
+		HeapSort(Open_array,count);
+		break;
+	case 6:
+		Sorted(Open_array,count);
+		break;
+	case 7:
 		exit(0);
 		break;
 	}
@@ -95,7 +101,7 @@ return 0;
 
 //algorithmos heapsort vasismenos sto vivlio tou kyriou tsakalidh
 void HeapSort(STOCK* array,int size){
-int low=floor(size/2)-1;
+int low=(int)floor(size/2)-1;
 int rear=size-1;
 int j,k;
 STOCK s;
@@ -114,7 +120,7 @@ swap(&array[0].OpenInt,&array[rear].OpenInt);
 swap(&array[0].date,&array[rear].date);
 
 rear=rear-1;
-j=0;
+j=0;//
 }
 s.Close=array[j].Close;
 s.Open=array[j].Open;
