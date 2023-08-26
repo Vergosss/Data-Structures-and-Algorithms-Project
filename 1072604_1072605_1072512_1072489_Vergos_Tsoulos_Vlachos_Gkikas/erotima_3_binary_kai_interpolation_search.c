@@ -13,6 +13,8 @@ void remove_all_chars(char* str,char c);
 int Count_file(FILE* fp);
 int interpolationSearch(STOCK* array, int l, int h, int date);
 int Binary_search(STOCK* array,int date,int left,int right);
+void checkAlgorithmValidity(STOCK* array,int megethos);
+void checkBinaryValidity(STOCK* array,int megethos);
 //main menu
 int main(){
 FILE* f1;
@@ -49,6 +51,7 @@ Open_array[i].OpenInt=OpenInt;
 }
 fclose(f1);
 //Needs change
+/*
 char give_date[11];
 int given_date;
 Print(Open_array,count);
@@ -66,6 +69,9 @@ remove_all_chars(give_date,'-');
 given_date=(int)atoi(give_date);
 printf("Volume of %d you gave is : %d\n",given_date,interpolationSearch(Open_array,0,count-1,given_date));
 //dinoume hmeromhnies kai tis kanoume searching
+*/
+checkAlgorithmValidity(Open_array,count);
+checkBinaryValidity(Open_array,count);
 return 0;
 }
 //function definitions
@@ -144,5 +150,31 @@ for(i=0;i<megethos;i++){
 printf("%d,%lf\n",arr[i].date,(double)arr[i].Open);
 }
 return;
+
+}
+void checkAlgorithmValidity(STOCK* array,int megethos){
+int i;
+for(i=0;i<megethos;i++){
+if(array[i].Volume != interpolationSearch(array,0,megethos-1,array[i].date)){
+printf("The algorithm doesnt work\n");
+return;
+}
+
+}
+printf("The algorithm works\n");
+return;
+}
+void checkBinaryValidity(STOCK* array,int megethos){
+int i;
+for(i=0;i<megethos;i++){
+if(array[i].Volume != Binary_search(array,array[i].date,0,megethos-1)){
+printf("Binary doesnt work\n");
+return;
+}
+
+}
+printf("Binary works\n");
+return;
+
 
 }

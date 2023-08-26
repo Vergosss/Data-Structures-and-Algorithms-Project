@@ -3,14 +3,15 @@
 #include<string.h>
 #include<math.h>
 typedef struct Stock{
-int year,month,day,Volume,OpenInt;
-float Open,High,Low,Close;
+int date,Volume,OpenInt;
+double Open,High,Low,Close;
 }STOCK;
 void remove_all_chars(char* str,char c);
 int Count_file(FILE* fp);
 void Print(int* arr,int megethos);
-int binary_interpolation_search(int* arr,STOCK* array,int date,int megethos);
-int LinearSearch(int* arr,STOCK* array,int left,int right,int date);
+int binary_interpolation_search(STOCK* array,int date,int megethos);
+int LinearSearch(STOCK* array,int left,int right,int date);
+void checkAlgorithmValidity(STOCK* array,int megethos);
 int main(){
 FILE* f1;
 f1=fopen("agn.us.txt","r");
@@ -24,75 +25,43 @@ f1=fopen("agn.us.txt","r+");
 //STOCK_ Open_array[count];
 //STOCK_ Open_array2[count];
 STOCK Open_array[count];
-int new_array[count];//dhlonoume pinaka pou tha apothikeysei tis hmeromhnies pano stis opoies kanoume searching
-int year,Volume,OpenInt,month,day; //prosorines metavlites pou apothikeyoyn ta antistixa pedia apo to arxeio
-year=month=day=Volume=OpenInt=0;
-float Open,High,Low,Close;
+//dhlonoume pinaka pou tha apothikeysei tis hmeromhnies pano stis opoies kanoume searching
+int Volume,OpenInt; //prosorines metavlites pou apothikeyoyn ta antistixa pedia apo to arxeio
+Volume=OpenInt=0;
+double Open,High,Low,Close;
 Open=High=Low=Close=0.0;
 int i=0;
-char c=getc(f1);
-while(c!=EOF)
+int temp=0;
+char date[11];
+//
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
 {
-fscanf(f1,"%d-%d-%d,%f,%f,%f,%f,%d,%d",&year,&month,&day,&Open,&High,&Low,&Close,&Volume,&OpenInt);
+remove_all_chars(date,'-');//convert date string to int maintaining dates' order
+temp=(int)atoi(date);//cast to int
 Open_array[i].Open=Open;
 //Open_array[i].Close=(int)round(Close);
 Open_array[i].Close=Close;
-Open_array[i].year=year;
-Open_array[i].month=month;
-Open_array[i].day=day;
+Open_array[i].date=temp;
 Open_array[i].High=High;
 Open_array[i].Low=Low;
 Open_array[i].Volume=Volume;
 Open_array[i].OpenInt=OpenInt;
 
-c=getc(f1);
-if(c=='\n'){
-i++;
-}
+++i;
+
 }
 fclose(f1);
-f1=fopen("agn.us.txt","r+");
-i=0;
-int temp=0;
-char date[11];
-char z=getc(f1);
 /*
-skanaroume to arxeio kai apothikeyoume se metavlites thn hmeromhnia os string sth morfh:YYYY-MM-DD kai stis ypoloipes
-metavlites tous arithmous pou xorizontai metaxy tous me comma.
-*/
-while(z!=EOF)
-{
-fscanf(f1,"%s,%f,%f,%f,%f,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt);
-Open_array[i].Open=Open;
-//Open_array[i].Close=(int)round(Close);
-/*Open_array[i].Close=Close;
-Open_array[i].year=year;
-Open_array[i].month=month;
-Open_array[i].day=day;
-Open_array[i].High=High;
-Open_array[i].Low=Low;
-Open_array[i].Volume=Volume;
-Open_array[i].OpenInt=OpenInt;
-*/
-remove_all_chars(date,'-');//klhsh synarthshs poy afairei apo thn hmeromhnia tis payles kai svinei ta kena
-temp=atoi(date); //metatrepoume thn hmeromhnia pou einai string akoma kai xoris ta kena se akeraio gia na th xeiristoume
-new_array[i]=temp;
-z=getc(f1);
-if(z=='\n'){
-i++;
-}
-}
-//Print(new_array,count);
 char give_date[11]; //Dhlonoume th metavliti hmeromhnias anazitisis
 int given_date;
 printf("Give date in format: YYYY-MM-DD \n");
 scanf("%s",give_date);
 remove_all_chars(give_date,'-');
-given_date=atoi(give_date);
+given_date=(int)atoi(give_date);
 //printf("Volume of the date you provided is : %d \n",interpolationSearch(new_array,Open_array,0,count-1,given_date));
-printf("Volume of the date you provided is : %d \n",binary_interpolation_search(new_array,Open_array,given_date,count));
-
-
+printf("Volume of the date you provided is : %d \n",binary_interpolation_search(Open_array,given_date,count));
+*/
+checkAlgorithmValidity(Open_array,count);
 return 0;
 }
 /*
@@ -132,52 +101,66 @@ void remove_all_chars(char* str, char c) {
 /*
 algorithmos diikis anazitisis paremvolis. Ylopoihmenos basei tou vivliou tou kyrioy tsakalidi.
 */
-int binary_interpolation_search(int* arr,STOCK* array,int date,int megethos){
+int binary_interpolation_search(STOCK* array,int date,int megethos){
 int i;
-int left=0;
-int right=megethos-1;
-int size=right-left;
-int next=size*(date-arr[left])/(arr[right]-arr[left])+1;
-while(date!=arr[next]){
+int left=0;//in C first index is 0
+int right=megethos-1;//in C last index is size-1
+int size=right-left+1;//array size
+int next=(int)(ceil(size*(date-array[left].date)/(array[right].date-array[left].date)))+1;
+while(date!=array[next].date){
 i=0;
-size=right-left;
+size=right-left+1;//regardless of subarray the formula for the size is always this
 if(size<=3){
-return LinearSearch(arr,array,left,right,date);
+return LinearSearch(array,left,right,date);
 }
-if(date>=arr[next]){
-while(date>arr[next+i*(int)(sqrt(size))-1]){
+if(date>=array[next].date){
+while(date>array[next+i*(int)(floor(sqrt(size)))-1].date){
 i++; //sth veltiosh xeirisths periptosis tha exoume i=2*i;
 }
-right=next+i*sqrt(size);
-left=next+(i-1)*sqrt(size);
+right=next+i*(int)(floor(sqrt(size)));
+left=next+(i-1)*(int)(floor(sqrt(size)));
 }
-else if(date<arr[next]){
-while(date<arr[next-i*(int)(sqrt(size))+1]){
+else if(date<array[next].date){
+while(date<array[next-i*(int)(floor(sqrt(size)))+1].date){
 i++; //sth veltiosh xeirisths periptosis tha exoume i=2*i;
 }
-right=next-(int)((i-1)*sqrt(size));
-left=next-(int)(i*sqrt(size));
+right=next-(i-1)*(int)(floor(sqrt(size)));
+left=next-i*(int)(floor(sqrt(size)));
 }
-next=left+(right-left+1)*(date-arr[left])/(arr[right]-arr[left]) -1;
+next=left+(int)(ceil((right-left+1)*(date-array[left].date)/(array[right].date-array[left].date))) -1;
+
 }
-if(date==arr[next]){
+if(date==array[next].date){
 return array[next].Volume;
 }
 else{
 return -1;
 }
 }
+
 /*
 algorithmos grammikhs anazhthshs ton opoion kaloume kata thn ektelesh tou binary interpolation search otan to diastima mesa sto opoio psaxnoume to stixio einai mikro arketa(p.x <=3).
 */
-int LinearSearch(int* arr,STOCK* array, int left, int right, int date)
+int LinearSearch(STOCK* array, int left, int right, int date)
 {
 	int i = left;
 	while (i <= right){
-		if (arr[i] == date){
+		if (array[i].date == date){
 		return array[i].Volume;
 		}
 		i++;
 	}
 	return -1;
+}
+void checkAlgorithmValidity(STOCK* array,int megethos){
+int i;
+for(i=0;i<megethos;i++){
+if(array[i].Volume != binary_interpolation_search(array,array[i].date,megethos)){
+printf("The algorithm doesnt work\n");
+return;
+}
+
+}
+printf("The algorithm works\n");
+return;
 }

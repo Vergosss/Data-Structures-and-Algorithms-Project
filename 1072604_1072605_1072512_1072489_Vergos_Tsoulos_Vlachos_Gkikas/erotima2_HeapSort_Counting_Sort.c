@@ -15,7 +15,7 @@ int Close;
 void remove_all_chars(char* str, char c);
 int Count_file(FILE* fp);
 void HeapSort(STOCK* array,int size);
-void Counting_Sort(STOCK_* A,int k,int megethos);
+void Counting_Sort(STOCK_* A,int megethos);
 void Print(STOCK* arr,int megethos);
 void Print_(STOCK_* arr,int megethos);//synarthsh Print_ typonei stixia enos pinaka STOCK_. epeidh o counting sort leitourgei se akeraious //strogylopoioume ston plisiestero akeraio
 void swap(int* a,int* b);
@@ -35,8 +35,9 @@ int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("ale.us.txt","r+");//needed to avoid garbage
-STOCK Open_array[count];
-STOCK_ Open_array2[count];
+STOCK* Open_array=(STOCK*)malloc(count*sizeof(STOCK));
+STOCK_* Open_array2=(STOCK_*)malloc(count*sizeof(STOCK_));
+
 int Volume,OpenInt;
 Volume=OpenInt=0;
 double Open,High,Low,Close;
@@ -63,7 +64,8 @@ Open_array2[i].Close=(int)(round(Close));//strogylopoihsh ston plisiestero akera
 
 }
 fclose(f1);
-int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
+//int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
+//printf("Max is : %d\n",k);
 int choice;//menu choice
 while(1){//main menu
 printf("1 for table printing 2 for HeapSort 3 to check if it sorted and 4 for CountingSort and 5 to exit\n");
@@ -79,7 +81,7 @@ switch(choice){
 		Sorted_(Open_array2,count);
 		break;
 	case 4:
-		Counting_Sort(Open_array2,k,count);
+		Counting_Sort(Open_array2,count);
 		break;
 	case 5:
 		exit(0);
@@ -203,17 +205,26 @@ return;
 /*
 algorithmos counting sort ylopoihmenos me th voitheia tou pseydokodika apo to vivlio tou kiriou tsakalidi
 */
-void Counting_Sort(STOCK_* A,int k,int megethos){
-STOCK_ B[k+1];//output array
-int C[k+1];//k is the 'max'
-int i,j;
-for(i=0;i<=k;i++){
+void Counting_Sort(STOCK_* A,int megethos){
+int i;
+int max;
+max=A[0].Close;
+for(i=1;i<megethos;i++){
+if(A[i].Close>max){
+max=A[i].Close;
+}
+}
+//
+STOCK_* B=(STOCK_*)malloc((max+1)*sizeof(STOCK_));//output array
+int* C=(int*)malloc((max+1)*sizeof(int));//k is the max
+int j;
+for(i=0;i<=max;i++){
 C[i]=0;//count initialization with zeros
 }
 for(j=0;j<megethos;j++){
 C[A[j].Close]++;//store count of each element
 }
-for(i=1;i<=k;i++){
+for(i=1;i<=max;i++){
 C[i]+=C[i-1];//apothikeysh tou 'syssoreytikou' plithous tou array
 }
 for(j=megethos-1;j>=0;j--){// vres th thesh tou kathe stixiou tou Open_array2 sto C(Count array)
