@@ -22,6 +22,7 @@ void swap(int* a,int* b);
 void swap1(double* a,double* b);
 void Sorted(STOCK* arr, int megethos);
 int Find_Max(STOCK_* arr,int megethos);
+void Sorted_(STOCK_* arr, int megethos);
 /////
 //main menu
 int main(){
@@ -63,22 +64,25 @@ Open_array2[i].Close=(int)(round(Close));//strogylopoihsh ston plisiestero akera
 
 }
 fclose(f1);
-
+int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
 int choice;//menu choice
 while(1){//main menu
-printf("1 for table printing 2 for HeapSort 3 to check if it sorted and 4 to exit\n");
+printf("1 for table printing 2 for HeapSort 3 to check if it sorted and 4 for CountingSort and 5 to exit\n");
 scanf("%d",&choice);//user's input choice
 switch(choice){
 	case 1:
-		Print(Open_array,count);
+		Print_(Open_array2,count);
 		break;
 	case 2:
 		HeapSort(Open_array,count);
 		break;
 	case 3:
-		Sorted(Open_array,count);
+		Sorted_(Open_array2,count);
 		break;
 	case 4:
+		Counting_Sort(Open_array3,Open_array2,k,count);
+		break;
+	case 5:
 		exit(0);
 		break;
 	}
@@ -86,15 +90,6 @@ switch(choice){
 }
 
 
-
-
-Print(Open_array,count);
-HeapSort(Open_array,count);
-printf("After heapsort...\n");
-Print(Open_array,count);
-//int k=Find_Max(Open_array2,count);//to megisto ton timon pou xeirizomaste xrhsimopoietai apo ton counting sort opote prepei na ypologistei
-//Counting_Sort(Open_array3,Open_array2,k,count);
-//Print_(Open_array3,count);
 return 0;
 }
 
@@ -210,24 +205,25 @@ return;
 algorithmos counting sort ylopoihmenos me th voitheia tou pseydokodika apo to vivlio tou kiriou tsakalidi
 */
 void Counting_Sort(STOCK_* A,STOCK_* B,int k,int megethos){
-int C[k+1];
+int C[k+1];//k is the 'max'
 int i,j;
 for(i=0;i<=k;i++){
-C[i]=0;
+C[i]=0;//count initialization with zeros
 }
-for(j=1;j<megethos;j++){
-C[A[j].Close]+=1;
+for(j=0;j<megethos;j++){
+C[A[j].Close]+=1;//store count of each element
 }
 for(i=1;i<=k;i++){
-C[i]+=C[i-1];
+C[i]+=C[i-1];//apothikeysh tou 'syssoreytikou' plithous tou array
 }
-for(j=megethos-1;j>=0;j--){
+for(j=megethos-1;j>=0;j--){// vres th thesh tou kathe stixiou tou Open_array2 sto C(Count array)
+  // topothetise ta ston pinaka eksodou
 B[C[A[j].Close]-1].Close=A[j].Close;
 B[C[A[j].Close]-1].date=A[j].date;
 C[A[j].Close]--;
 }
 for(i=0;i<megethos;i++){
-A[i].Close=B[i].Close;
+A[i].Close=B[i].Close;//apothikeyse ta taxinomimena stixia sto arxiko array
 A[i].date=B[i].date;
 
 }
@@ -261,6 +257,22 @@ int i;
    printf("Array sorted\n");
    return;
 }
+//
+void Sorted_(STOCK_* arr, int megethos)
+{//prerequisite for a sorted array is array(i)<=array(i+1) for i=0,...,megethos-2
+int i;
+    for (int i = 1; i < megethos; i++) {
+        
+        if (arr[i - 1].Close > arr[i].Close){
+        	printf("Array not sorted\n");
+        	return;
+        }
+    }
+ 
+   printf("Array sorted\n");
+   return;
+}
+//
 void remove_all_chars(char* str, char c) {//function that accepts a string and a character. it removes this character and deletes the space in the
 //deleted position.
     char *pr = str, *pw = str;
