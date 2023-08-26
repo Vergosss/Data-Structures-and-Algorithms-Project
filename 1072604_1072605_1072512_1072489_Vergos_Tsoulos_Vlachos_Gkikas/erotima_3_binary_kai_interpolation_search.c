@@ -143,7 +143,7 @@ void remove_all_chars(char* str, char c) {//function that accepts a string and a
     *pw = '\0';
 }
 
-
+//print array's two values
 void Print(STOCK* arr,int megethos){
 int i;
 for(i=0;i<megethos;i++){
@@ -153,9 +153,10 @@ return;
 
 }
 void checkAlgorithmValidity(STOCK* array,int megethos){
-int i;
+int i;//check if  interpolation search works by searching all array dates
 for(i=0;i<megethos;i++){
-if(array[i].Volume != interpolationSearch(array,0,megethos-1,array[i].date)){
+if(array[i].Volume != interpolationSearch(array,0,megethos-1,array[i].date)){//if the return search value doesnt correspond to the equivalent
+//volume value of the array then the algorithm fails
 printf("The algorithm doesnt work\n");
 return;
 }
@@ -164,10 +165,12 @@ return;
 printf("The algorithm works\n");
 return;
 }
+//
 void checkBinaryValidity(STOCK* array,int megethos){
-int i;
+int i;//check if  interpolation search works by searching all array dates
 for(i=0;i<megethos;i++){
-if(array[i].Volume != Binary_search(array,array[i].date,0,megethos-1)){
+if(array[i].Volume != Binary_search(array,array[i].date,0,megethos-1)){//if the return search value doesnt correspond to the equivalent
+//volume value of the array then the algorithm fails
 printf("Binary doesnt work\n");
 return;
 }

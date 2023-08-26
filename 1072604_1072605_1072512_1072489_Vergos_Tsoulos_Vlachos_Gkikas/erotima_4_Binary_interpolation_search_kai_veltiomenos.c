@@ -1,24 +1,28 @@
+//Libraries
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+//Stock custom data type
 typedef struct Stock{
 int date,Volume,OpenInt;
 double Open,High,Low,Close;
 }STOCK;
+//function declarations
 void remove_all_chars(char* str,char c);
 int Count_file(FILE* fp);
 void Print(int* arr,int megethos);
 int binary_interpolation_search(STOCK* array,int date,int megethos);
 int LinearSearch(STOCK* array,int left,int right,int date);
 void checkAlgorithmValidity(STOCK* array,int megethos);
+//main menu
 int main(){
 FILE* f1;
 f1=fopen("agn.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
-int count=Count_file(f1);
+int count=Count_file(f1);//Number of lines in text file
 printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("agn.us.txt","r+");
@@ -29,7 +33,7 @@ STOCK Open_array[count];
 int Volume,OpenInt; //prosorines metavlites pou apothikeyoyn ta antistixa pedia apo to arxeio
 Volume=OpenInt=0;
 double Open,High,Low,Close;
-Open=High=Low=Close=0.0;
+Open=High=Low=Close=0.0;//assistant variables to store fields of file's lines
 int i=0;
 int temp=0;
 char date[11];
@@ -51,7 +55,7 @@ Open_array[i].OpenInt=OpenInt;
 
 }
 fclose(f1);
-/*
+
 char give_date[11]; //Dhlonoume th metavliti hmeromhnias anazitisis
 int given_date;
 printf("Give date in format: YYYY-MM-DD \n");
@@ -60,8 +64,9 @@ remove_all_chars(give_date,'-');
 given_date=(int)atoi(give_date);
 //printf("Volume of the date you provided is : %d \n",interpolationSearch(new_array,Open_array,0,count-1,given_date));
 printf("Volume of the date you provided is : %d \n",binary_interpolation_search(Open_array,given_date,count));
-*/
-checkAlgorithmValidity(Open_array,count);
+
+checkAlgorithmValidity(Open_array,count);//check if binary interpolation search works
+
 return 0;
 }
 /*
@@ -142,7 +147,7 @@ return -1;
 algorithmos grammikhs anazhthshs ton opoion kaloume kata thn ektelesh tou binary interpolation search otan to diastima mesa sto opoio psaxnoume to stixio einai mikro arketa(p.x <=3).
 */
 int LinearSearch(STOCK* array, int left, int right, int date)
-{
+{//when the sub array length is too small then perform linearr search
 	int i = left;
 	while (i <= right){
 		if (array[i].date == date){
@@ -153,10 +158,11 @@ int LinearSearch(STOCK* array, int left, int right, int date)
 	return -1;
 }
 void checkAlgorithmValidity(STOCK* array,int megethos){
-int i;
+int i;//check if binary interpolation search works by searching all array dates
 for(i=0;i<megethos;i++){
-if(array[i].Volume != binary_interpolation_search(array,array[i].date,megethos)){
-printf("The algorithm doesnt work\n");
+if(array[i].Volume != binary_interpolation_search(array,array[i].date,megethos)){//if the return search value doesnt correspond to the equivalent
+//volume value of the array then the algorithm fails
+printf("The algorithm doesnt work %d\n",i);
 return;
 }
 
