@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-#define SIZE 3239#
+#define SIZE 3239//table size
 //Hash table node data type
 struct Node{
 int date;
