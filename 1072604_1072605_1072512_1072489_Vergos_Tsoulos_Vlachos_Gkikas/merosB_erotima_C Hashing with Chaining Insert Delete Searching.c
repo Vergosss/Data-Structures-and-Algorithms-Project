@@ -1,15 +1,17 @@
+//Libraries
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-#define SIZE 3239
+#define SIZE 3239#
+//Hash table node data type
 struct Node{
 int date;
 int key; //kleidi
 int Volume;
-struct Node* next; // deikth se tetoia domh etsi oste na ylopoihthei to chaining
+struct Node* next; // deikth se tetoia domh etsi oste na ylopoihthei to chaining-linked list implementing chaining
 };
-
+//function definitions
 int anazitisi(struct Node** table,int date,int key);
 void diagrafi(struct Node** table ,int date,int key);
 void tropopoihsh(struct Node** table,int date,int key);
@@ -19,39 +21,40 @@ int Count_file(FILE* fp);
 int ascii_values(char* s,int len);
 void eisagogi(struct Node** table,int date ,int key,int Volume);
 ////////
+//main menu
+//
 int main(){
-FILE* f1=fopen("agn.us.txt","r+");
+FILE* f1=fopen("agn.us.txt","r");
 if(f1==NULL){
 exit(-1);
 }
-struct Node* Hash_Table[SIZE];
+struct Node* Hash_Table[SIZE];//creating hash table 
 int j=0;
 for(j=0;j<SIZE;j++){
 Hash_Table[j]=NULL;
-}//arxikopoihsh ton next deikton
+}//arxikopoihsh ton next deikton- initialization of hash table
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
 f1=fopen("agn.us.txt","r+");
 int Volume,OpenInt;
 Volume=OpenInt=0;
-float Open,High,Low,Close;
-Open=High=Low=Close=0.0;
+double Open,High,Low,Close;
+Open=High=Low=Close=0.0;//assistant variables to store file's lines' fields
 char date[11];
 int temp=0;
 int key=0;
-char c=fgetc(f1);
-while(c!=EOF)
+//reading file
+while(fscanf(f1,"%[^,],%lf,%lf,%lf,%lf,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt) == 7)
 {
-fscanf(f1,"%s,%f,%f,%f,%f,%d,%d",date,&Open,&High,&Low,&Close,&Volume,&OpenInt);
 key=ascii_values(date,strlen(date));
 //hash thn timh toy key kai apotelesma->thesi sto array
 remove_all_chars(date,'-');
 temp=(int)atoi(date);
 eisagogi(Hash_Table,temp,key,Volume);
-c=fgetc(f1);
+
 }
-fclose(f1);
+fclose(f1);//close file
 Print(Hash_Table);
 char give_date[11];
 int given_date;
@@ -93,7 +96,10 @@ switch(choice){
 
 return 0;
 }
-void remove_all_chars(char* str, char c) {
+//function definitions
+//
+void remove_all_chars(char* str, char c) {//function that accepts a string and a character. it removes this character and deletes the space in the
+//deleted position.
     char *pr = str, *pw = str;
     while (*pr) {
         *pw = *pr++;
@@ -101,6 +107,11 @@ void remove_all_chars(char* str, char c) {
     }
     *pw = '\0';
 }
+//
+/*
+
+synarthsh pou metra tis grames tou arxeiou.xrisimi giana vroume to megethos tou pinaka
+*/
 int Count_file(FILE* fp){
 char c=getc(fp);
 int count=0;
@@ -110,14 +121,11 @@ count = count + 1;}
 }
 return count;
 }
-/*
 
-synarthsh pou metra tis grammes tou arxeiou. xrisimi gia na vroume to megethos ton pinakon mas
-*/
 ////
 /*
 
-synarthsh h opoia prostheti tis times ascii ton xaraktiron enos string ths morfhs "YYYY-MM-DD" .Xrhsimeyei gia na ypologisoume pou tha apothikeytei kathe egrafh sto pinaka katakermatismou
+synarthsh h opoia prosthetei tis times ascii ton xaraktiron enos string ths morfhs "YYYY-MM-DD" .Xrhsimeyei gia na ypologisoume pou tha apothikeytei kathe egrafh sto pinaka katakermatismou
 */
 int ascii_values(char* s,int len){
 int sum=0;

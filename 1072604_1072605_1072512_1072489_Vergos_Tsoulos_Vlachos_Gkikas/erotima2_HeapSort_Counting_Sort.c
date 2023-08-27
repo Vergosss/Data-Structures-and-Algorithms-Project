@@ -101,11 +101,11 @@ return 0;
 
 //algorithmos heapsort vasismenos sto vivlio tou kyriou tsakalidh
 void HeapSort(STOCK* array,int size){
-int low=(int)floor((size-2)/2);//zero indexed array parent(i)=floor((i-1)/2)
-int rear=size-1;
+int low=(int)floor((size-2)/2);//zero indexed array parent(i)=floor((i-1)/2)-start=parent(count-1)
+int rear=size-1;//end=count-1
 int j,k;
 STOCK s;
-while(rear>0){
+while(rear>0){//while end>0
 if(low>0){
 low=low-1;
 j=low;//start=start-1
@@ -119,7 +119,7 @@ swap(&array[0].Volume,&array[rear].Volume);
 swap(&array[0].OpenInt,&array[rear].OpenInt);
 swap(&array[0].date,&array[rear].date);
 
-rear=rear-1;//reduce heap size by one
+rear=rear-1;//reduce heap size by one-end=end-1
 j=0;//j is the root , start<-root
 }
 s.Close=array[j].Close;
