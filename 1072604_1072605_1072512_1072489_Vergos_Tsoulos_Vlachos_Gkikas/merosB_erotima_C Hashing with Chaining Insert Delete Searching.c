@@ -55,12 +55,11 @@ eisagogi(Hash_Table,temp,key,Volume);
 
 }
 fclose(f1);//close file
-Print(Hash_Table);
 char give_date[11];
 int given_date;
-int choice;
-while(1){
-printf("1 for search  2 for modification  3 for deletion 4 to exit\n");
+int choice;//variables to hold user's date input
+while(1){//user interface
+printf("1 for date search  2 for date volume modification  3 for date deletion 4 to print the hash table and 5 to exit\n");
 scanf("%d",&choice);
 switch(choice){
 	case 1:
@@ -88,7 +87,11 @@ switch(choice){
 		diagrafi(Hash_Table,given_date,key);
 		break;
 	case 4:
+		Print(Hash_Table);
+		break;
+	case 5:
 		exit(0);
+		break;
 }
 }
 
@@ -133,7 +136,7 @@ int i;
 for (i = 0; i < len; i++)
 {
 
-sum = sum + s[i];
+sum = sum + s[i];//in a string s, s(i) means its ascii value
 
 }
 return sum;
@@ -146,16 +149,16 @@ struct Node* temp_node=(struct Node*)malloc(sizeof(struct Node));//desmeysi mnim
 new_node->date=date;  //dimiourgia tou komvou
 new_node->key=key;
 new_node->Volume=Volume;
-new_node->next=NULL;
+new_node->next=NULL;//efoson einai neos komvos tote den tha exei epomeno
 ////
-int index=key%SIZE;
+int index=key%SIZE;//execute hash 'function'
 ////
-if(table[index]==NULL){
+if(table[index]==NULL){//here
 table[index]=new_node;
 } // an to keli tou pinaka einai adeio vale to neo komvo ekei
 else{
 //alios arxikopoihse metrhth me th koryfh ths listas dietrexe thn mexri to telos ths kai prosthese ekei to neo komvo
-temp_node=table[index];
+temp_node=table[index];//here
 while(temp_node->next!=NULL){
 temp_node=temp_node->next;
 }
@@ -167,16 +170,17 @@ temp_node->next=new_node;
 /*
 synarthsh pou typonei to hash table
 */
+//print the hash table bucket by bucket
 void Print(struct Node** table){
-struct Node* temp_node=(struct Node*)malloc(sizeof(struct Node));
+struct Node* temp_node=(struct Node*)malloc(sizeof(struct Node));//represent a list's node in hash table
 int i=0;
-for(i=0;i<SIZE;i++){
-if(table[i]==NULL){
+for(i=0;i<SIZE;i++){//Traversing all the buckets
+if(table[i]==NULL){//here
 printf("Table %d-th is empty!\n",i);
 continue;//afou einai adeia pigene ston epomeno kouva
 }
-temp_node=table[i];//arxikopoihsh tou protou stixiou ths alysidas
-while(temp_node->next!=NULL){//mexri
+temp_node=table[i];//arxikopoihsh tou protou stixiou ths alysidas-//here
+while(temp_node!=NULL){//mexri na diasxisoume olh th lista
 printf(" ->%d-%d-> ",temp_node->date,temp_node->Volume);//typonoume kathe stixio ths listas tou kathe kouva
 temp_node=temp_node->next;//diasxizoume th lista
 }
@@ -185,20 +189,21 @@ printf("\n");
 return;
 }
 ////
+//search a given date in the hash table and if it exists return its volume 
 int anazitisi(struct Node** table,int date,int key){
-int index=key%SIZE;
-struct Node* cur=(struct Node*)malloc(sizeof(struct Node));
-cur=table[index];
+int index=key%SIZE;//location in the table where we will search
+struct Node* cur=(struct Node*)malloc(sizeof(struct Node));//node to begin traversal from to search
+cur=table[index];//here
 //vriskoume me th synarthsh katakermatismou pou vriskomaste ston pianaka.meta diatrexoume th lista mexri to telos ths kai an taytistoun oi hmeromhnies tote epistrefei to volume pou psaxnoume
 while(cur!=NULL){
-if(cur->date==date){
+if(cur->date==date){//if current's node date is equal to the search date then we found the element
 return cur->Volume;
 }
 cur=cur->next;
 }
-return -10;
+return -10;//if it is not found then return a negative value to signify search failure
 }
-////
+////change volume of a given date
 void tropopoihsh(struct Node** table,int date,int key){
 int index=key%SIZE;
 struct Node* cur=(struct Node*)malloc(sizeof(struct Node));
@@ -214,6 +219,7 @@ cur=cur->next;
 return;
 }
 ////
+//Delete a date in the hash table
 void diagrafi(struct Node** table,int date,int key){
 int index=key%SIZE;
 struct Node* cur=table[index];
