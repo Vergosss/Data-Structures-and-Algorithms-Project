@@ -101,41 +101,41 @@ return 0;
 
 //algorithmos heapsort vasismenos sto vivlio tou kyriou tsakalidh
 void HeapSort(STOCK* array,int size){
-int low=(int)floor(size/2)-1;
+int low=(int)floor((size-2)/2);//zero indexed array parent(i)=floor((i-1)/2)
 int rear=size-1;
 int j,k;
 STOCK s;
-while(rear>=1){
+while(rear>0){
 if(low>0){
 low=low-1;
-j=low;
+j=low;//start=start-1
 }
 else{
 swap1(&array[0].Open,&array[rear].Open);
 swap1(&array[0].Close,&array[rear].Close);
-swap1(&array[0].High,&array[rear].High);
+swap1(&array[0].High,&array[rear].High);//swap(a(0),a(end))
 swap1(&array[0].Low,&array[rear].Low);
 swap(&array[0].Volume,&array[rear].Volume);
 swap(&array[0].OpenInt,&array[rear].OpenInt);
 swap(&array[0].date,&array[rear].date);
 
-rear=rear-1;
-j=0;//
+rear=rear-1;//reduce heap size by one
+j=0;//j is the root , start<-root
 }
 s.Close=array[j].Close;
 s.Open=array[j].Open;
 s.High=array[j].High;
-s.OpenInt=array[j].OpenInt;
+s.OpenInt=array[j].OpenInt;//swap=root
 s.Low=array[j].Low;
 s.Volume=array[j].Volume;
 s.date=array[j].date;
 
-while(2*j<=rear){
-k=2*j;
-if(k<rear && array[k].Close<array[k+1].Close){
+while((2*j+1)<=rear){//while leftchild(root) <=end , j=root,k=child
+k=2*j+1;//child=leftchild(root)
+if((k+1)<rear && array[k].Close<array[k+1].Close){
 k++;
 }
-if(s.Close<array[k].Close){
+if(s.Close<array[k].Close){// if swap<child
 array[j].Close=array[k].Close;
 array[j].Open=array[k].Open;
 array[j].High=array[k].High;
@@ -143,14 +143,14 @@ array[j].Low=array[k].Low;
 array[j].Volume=array[k].Volume;
 array[j].OpenInt=array[k].OpenInt;
 array[j].date=array[k].date;
-j=k;
+j=k;//swap=child
 }
 else{
 goto E;
 }
 }
 E:
-    array[j].Close=s.Close;
+    array[j].Close=s.Close;//root=swap
     array[j].Open=s.Open;
     array[j].High=s.High;
     array[j].Low=s.Low;
