@@ -181,7 +181,7 @@ continue;//afou einai adeia pigene ston epomeno kouva
 }
 temp_node=table[i];//arxikopoihsh tou protou stixiou ths alysidas-//here
 while(temp_node!=NULL){//mexri na diasxisoume olh th lista
-printf(" ->%d-%d-> ",temp_node->date,temp_node->Volume);//typonoume kathe stixio ths listas tou kathe kouva
+printf(" ->|%d-%d|-> ",temp_node->date,temp_node->Volume);//typonoume kathe stixio ths listas tou kathe kouva
 temp_node=temp_node->next;//diasxizoume th lista
 }
 printf("\n");
