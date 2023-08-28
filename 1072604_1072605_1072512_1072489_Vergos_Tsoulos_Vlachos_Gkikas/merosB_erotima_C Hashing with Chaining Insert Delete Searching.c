@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-#define SIZE 3239//table size
+#define SIZE 3239
 //Hash table node data type
 struct Node{
 int date;
@@ -216,6 +216,7 @@ return;
 }
 cur=cur->next;
 }
+printf("Date not found!\n");
 return;
 }
 ////
@@ -223,19 +224,23 @@ return;
 void diagrafi(struct Node** table,int date,int key){
 int index=key%SIZE;
 struct Node* cur=table[index];
-if(cur!=NULL){
-if(cur->date==date){
-cur=cur->next;//diagrafi an h lista exei 1 mono stixio
+if(cur==NULL){//if first element is empty then the date to delete doesnt exist
+printf("Date to delete not found! because table[%d] is empty\n",index);
+return;
+}
+if(cur->date == date){// deleting first element of the bucket
+cur->next=NULL;
+return;
 }
 else
 {
 while(cur->next!=NULL){
 if(cur->next->date==date){
 cur->next=cur->next->next;//syndeoume ton proigoumeno komvo aytou pou theloume na diagrapsoume me ton epomeno aytou pou theloume na diagrapsoume etsi petyxainoume ti diagrafi
+return;
 }
 cur=cur->next; //diatrexoume th lista
 }
 }
+return ;
 }	
-}
-
