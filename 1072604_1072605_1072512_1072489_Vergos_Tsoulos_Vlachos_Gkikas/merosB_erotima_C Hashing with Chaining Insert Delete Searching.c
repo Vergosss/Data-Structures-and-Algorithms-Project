@@ -228,10 +228,12 @@ if(cur==NULL){//if first element is empty then the date to delete doesnt exist
 printf("Date to delete not found! because table[%d] is empty\n",index);
 return;
 }
+
 if(cur->date == date){// deleting first element of the bucket
-cur->next=NULL;
+table[index]=table[index]->next;//removing first node by setting the new first node its next
 return;
 }
+
 else
 {
 while(cur->next!=NULL){
