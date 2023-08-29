@@ -146,17 +146,18 @@ array[j].date=array[k].date;
 j=k;//swap=child
 }
 else{
-goto E;
+//goto E;
+ array[j].Close=s.Close;//root=swap
+array[j].Open=s.Open;
+array[j].High=s.High;
+array[j].Low=s.Low;
+array[j].date=s.date;
+array[j].Volume=s.Volume;
+array[j].OpenInt=s.OpenInt;
 }
 }
-E:
-    array[j].Close=s.Close;//root=swap
-    array[j].Open=s.Open;
-    array[j].High=s.High;
-    array[j].Low=s.Low;
-   	array[j].date=s.date;
-    array[j].Volume=s.Volume;
-    array[j].OpenInt=s.OpenInt;
+
+   
 }
 //return array;
 }
