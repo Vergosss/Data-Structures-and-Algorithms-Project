@@ -25,7 +25,7 @@ exit(1);
 int count=Count_file(f1);//number of lines in file
 printf("Count is :%d\n",count);
 fclose(f1);
-f1=fopen("agn.us.txt","r+");
+f1=fopen("./data/agn.us.txt","r+");
 STOCK Open_array[count];
 int Volume,OpenInt;
 Volume=OpenInt=0;
