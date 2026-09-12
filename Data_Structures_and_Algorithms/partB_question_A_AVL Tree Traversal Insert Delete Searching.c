@@ -38,14 +38,14 @@ int main(){
 struct Node* root=(struct Node*)malloc(sizeof(struct Node));
 root=NULL;//memory allocation and initialization of AVL tree root
 FILE* f1;
-f1=fopen("agn.us.txt","r");//opening file
+f1=fopen("./data/agn.us.txt","r");//opening file
 if(f1==NULL){
 exit(1);
 }
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
-f1=fopen("agn.us.txt","r+");
+f1=fopen("./data/agn.us.txt","r+");
 double Open,High,Low,Close;
 Open=High=Low=Close=0.0;// temporary variables to hold each field of a line
 int Volume,OpenInt;
