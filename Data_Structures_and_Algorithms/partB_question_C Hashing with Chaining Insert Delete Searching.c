@@ -24,7 +24,7 @@ void eisagogi(struct Node** table,int date ,int key,int Volume);
 //main menu
 //
 int main(){
-FILE* f1=fopen("agn.us.txt","r");
+FILE* f1=fopen("./data/agn.us.txt","r");
 if(f1==NULL){
 exit(-1);
 }
@@ -36,7 +36,7 @@ Hash_Table[j]=NULL;
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
-f1=fopen("agn.us.txt","r+");
+f1=fopen("./data/agn.us.txt","r+");
 int Volume,OpenInt;
 Volume=OpenInt=0;
 double Open,High,Low,Close;
