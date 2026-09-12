@@ -21,14 +21,14 @@ void Sorted(STOCK* arr, int megethos);
 //main menu
 int main(){
 FILE* f1;
-f1=fopen("ale.us.txt","r");
+f1=fopen("./data/ale.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
 int count=Count_file(f1);
 printf("Count is :%d\n",count);
 fclose(f1);
-f1=fopen("ale.us.txt","r+");//needed to avoid garbage
+f1=fopen("./data/ale.us.txt","r+");//needed to avoid garbage
 STOCK Open_array[count];
 int Volume,OpenInt;
 Volume=OpenInt=0;
