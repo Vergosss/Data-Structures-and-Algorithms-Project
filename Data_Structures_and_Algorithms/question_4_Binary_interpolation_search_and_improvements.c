@@ -18,14 +18,14 @@ void checkAlgorithmValidity(STOCK* array,int megethos);
 //main menu
 int main(){
 FILE* f1;
-f1=fopen("agn.us.txt","r");
+f1=fopen("./data/agn.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
 int count=Count_file(f1);//Number of lines in text file
 printf("Count is :%d\n",count);
 fclose(f1);
-f1=fopen("agn.us.txt","r+");
+f1=fopen("./data/agn.us.txt","r+");
 //STOCK_ Open_array[count];
 //STOCK_ Open_array2[count];
 STOCK Open_array[count];
