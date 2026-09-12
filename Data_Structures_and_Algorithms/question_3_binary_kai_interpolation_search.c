@@ -18,7 +18,7 @@ void checkBinaryValidity(STOCK* array,int megethos);
 //main menu
 int main(){
 FILE* f1;
-f1=fopen("agn.us.txt","r");
+f1=fopen("./data/agn.us.txt","r");
 if(f1==NULL){
 exit(1);
 }
